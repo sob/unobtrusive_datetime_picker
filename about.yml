@@ -1,0 +1,7 @@
+name: Unobtrusive DateTime-Picker Widget
+author: "Sean O'Brien"
+version: 0.1
+description: Helper to create a DateTime text input that use the Unobtrusive Date Picker Widget.
+url: http://github.com/sob/unobtrusive_datetime_picker
+install: git://github.com/sob/unobtrusive_datetime_picker.git
+license: MIT

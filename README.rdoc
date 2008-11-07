@@ -1,0 +1,93 @@
+= Unobtrusive DateTime-Picker Widget Plugin
+
+This is a helper for creating a date-time picker that uses a modified version of the
+Unobtrusive Date-Picker Widgit(sic)
+(http://www.frequency-decoder.com/2006/10/02/unobtrusive-date-picker-widgit-update)
+to add a clickable calendar image that will bring up a calendar picker if
+javascript is available. It replicates as much of the API of the Rails `datetime_select` form helper.
+
+This plugin is based *heavily* on the work of Brian Landau and his unobtrusive_date_picker
+plugin.
+
+The javascript date functions are all from the Datejs library (http://code.google.com/p/datejs/).
+
+You may want to consider compressing the javascript files with Dean Edward's
+Packer (http://dean.edwards.name/packer/) or Douglas Crockford's JSMin
+(http://www.crockford.com/javascript/jsmin.html) before deploying your
+application.
+
+== Install
+
+   `git clone git://github.com/sob/unobtrusive_datetime_picker.git`
+
+== Usage
+
+To be able to use the datetime-picker methods below you need to include the
+javascript library file and CSS stylesheet in your layout template. 
+You can do this either by manually including the files via a
+`javascript_include_tag` and a `stylesheet_link_tag` (the files are both named
+"datetimepicker"), OR by using the included `unobtrusive_datetimepicker_includes` 
+helper method, which will do this for you.
+
+There are 4 main methods:
+   - unobtrusive_datetime_text_picker
+   - unobtrusive_date_text_picker
+   - unobtrusive_datetime_text_picker_tags
+   - unobtrusive_date_text_picker_tags
+
+Options (* indicates same functionality as is in Rails Date helpers):
+   - *:minute_step => how many minutes apart each minute option should be
+       - example: (:minute_step => 5) would result in [0, 15, 30, 45] as options
+   - :highlight_days => which days of the week should be highlighted in the datepicker (by default Saturday and Sunday)
+       - Excepts either a string of number representing days of the week (0 = Monday, 1 = Tuesday ... 6 = Sunday)
+       - Or a singular symbol for one day of the week
+       - Or an array of symbols representing days of the week, i.e. [:Monday, :Sunday]
+   - :range_low => the low range of acceptable dates (not times) for this input 
+       - managed by the Javascript, thus should be enforced with your own validations
+       - Excepts:
+         - One of the following symbols: :today, :tomorrow, :yesterday
+         - A string representation of a date
+         - A Date, DateTime, or Time object
+   - :range_high => the high range of acceptable dates (not times) for this input
+       - Excepts same options as :range_low; also managed by javascript
+   - :disable_days => days of the week that may not be selected
+       - Excepts the same format as :highlight_days
+       - Also managed by javascript
+   - :no_transparency => if set to true it disables the fade in/out
+                         visual effect of the datepicker
+    - :format => the format the date should be in
+      - m-d-y
+      - d-m-y
+      - y-m-d
+   - :divider => the divider used between the dates
+      - "slash" or "/"
+      - "dash"  or "-"
+      - "dot"   or "."
+      - "space" or " " 
+
+==== Rake task
+
+There is also a rake task that can be executed by running `rake
+datetimepicker:update` in your Rails apps root directory. This task will update your
+datetimepicker javascripts, stylesheets, and images. This is useful if you are using
+an old version of the plugin that had an older version of the Unobtrusive
+Date-Picker Widget Javascript library, or in the future when new version are
+release and I update the plugin with them.
+
+=== Example:
+   <% form_for :event, :method => :create do |f| %>
+   <fieldset>
+      ...
+      <label>Start Date: <%= f.unobtrusive_datetime_picker :start_at %></label><br />
+      ...
+   </fieldset>
+   <% end %>
+
+
+== LICENSE
+
+See MIT-LICENSE file for copyright and licensing information for this plugin.
+
+DateJS library is released under the MIT-LICENSE
+
+Unobtrusive Date-Picker Widgit is provided under the Creative Commons Attribution-ShareAlike 2.5 license (http://creativecommons.org/licenses/by-sa/2.5/) by frequency-decoder.com
