@@ -43,7 +43,7 @@ module UnobtrusiveDateTimePicker
     # Creates the text field based date picker with the calendar widget without a model object.
     #
     def unobtrusive_date_text_picker_tag(name, date = Date.today, options = {}, html_options = {})
-      options, html_options = datetimepicker_text_field_options(options, html_options)
+      options, html_options = datepicker_text_field_options(options, html_options)
       value = format_date_value_for_text_field(options[:format], options[:divider], date)
       text_field_tag(name, value, html_options)
     end
@@ -65,7 +65,8 @@ module UnobtrusiveDateTimePicker
     end
       
     def make_date_picker_class_options(options = {}) # :nodoc:
-      html_classes = ["date-picker", "time-picker"]
+      html_classes  = ["date-picker"]
+      html_classes << "time-picker" if options[:time_picker]
 
       if options[:highlight_days]
         highlight_days = parse_days_of_week(options[:highlight_days])
@@ -117,7 +118,15 @@ module UnobtrusiveDateTimePicker
       html_options[:class] = html_options[:class] ? "#{html_options[:class]} #{html_classes.join(' ')}" : html_classes.join(' ')
       [options, html_options]
     end
-  
+    
+    def datepicker_text_field_options(options, html_options) # :nodoc:
+      defaults = {:format => 'm-d-y', :divider => 'slash', :time_picker => false}
+      options = defaults.merge(options)
+      html_classes = make_date_picker_class_options(options)
+      html_options[:class] = html_options[:class] ? "#{html_options[:class]} #{html_classes.join(' ')}" : html_classes.join(' ')
+      [options, html_options]
+    end
+    
     def parse_days_of_week(option) # :nodoc:
       if option.is_a? String
         option
@@ -195,7 +204,7 @@ module ActionView # :nodoc: all
       end
       
       def to_datepicker_text_tag(options = {}, html_options = {})
-        options, html_options = datetimepicker_text_fiel_options(options, html_options)
+        options, html_options = datepicker_text_field_options(options, html_options)
         html_options[:value] = format_date_value_for_text_field(options[:format], options[:divider], value(object))
         to_input_field_tag('text', html_options)
       end
