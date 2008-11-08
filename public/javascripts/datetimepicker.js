@@ -653,7 +653,7 @@ var datePickerController;
 						for( var i = 0; i < 60; i++ ){
 							optionTag = document.createElement('option');
 							optionTag.value = i;
-							optionTag.innerHTML = (o.date.getMinutes() < 10 ? "0" + o.date.getMinutes() : o.date.getMinutes());
+							optionTag.innerHTML = (i < 10 ? "0" + i : i);
 							if (o.date.getMinutes() == i) {
 								optionTag.selected = true;
 							};
@@ -808,7 +808,7 @@ var datePickerController;
 				var d = o.date.clone().add({days: o.dayInc, months: o.monthInc, years: o.yearInc})
 				o.date = d;
 			};
-			
+
 			if(!noCallBack && "onupdate" in datePickerController && typeof(datePickerController.onupdate) == "function") datePickerController.onupdate(o);
 			
 			o.outOfRange();
@@ -857,7 +857,7 @@ var datePickerController;
 			while(span[0].firstChild) span[0].removeChild(span[0].firstChild);
 			while(span[1].firstChild) span[1].removeChild(span[1].firstChild);
 			span[0].appendChild(document.createTextNode(o.date.toString('MMMM') + o.nbsp));
-			span[1].appendChild(document.createTextNode(o.date.toString('YYYY')));
+			span[1].appendChild(document.createTextNode(o.date.toString('yyyy')));
 			
 			tmpDate.setDate(1);
 			
@@ -930,8 +930,7 @@ var datePickerController;
 					selectHour.options[(o.date.getHours() - 13)].selected = true;
 					selectMeridiem.options[1].selected = true;
 				};
-				// FIXME
-//				selectMinute.options[].selected = true;
+				selectMinute.options[(o.date.getMinutes())].selected = true;
 			};
 			
 			if(o.timerSet) {
